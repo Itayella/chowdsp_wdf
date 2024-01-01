@@ -15,7 +15,7 @@ namespace wdf
     class WDF : public wdft::BaseWDF
     {
     public:
-        explicit WDF (std::string type) : type (std::move (type)) {}
+        explicit WDF (std::string _type) : type (std::move (_type)) {}
         ~WDF() override = default;
 
         void connectToNode (WDF<T>* p) { wdfParent = p; }

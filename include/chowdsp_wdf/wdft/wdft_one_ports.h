@@ -3,6 +3,9 @@
 
 #include "wdft_base.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+
 namespace chowdsp
 {
 namespace wdft
@@ -65,8 +68,8 @@ namespace wdft
          * @param value: Capacitance value in Farads
          * @param fs: WDF sample rate
          */
-        explicit CapacitorT (T value, T fs = (T) 48000.0) : C_value (value),
-                                                            fs (fs)
+        explicit CapacitorT (T value, T _fs = (T) 48000.0) : C_value (value),
+                                                            fs (_fs)
         {
             calcImpedance();
         }
@@ -89,6 +92,7 @@ namespace wdft
         /** Sets the capacitance value of the WDF capacitor, in Farads. */
         void setCapacitanceValue (T newC)
         {
+
             if (all (newC == C_value))
                 return;
 
@@ -141,9 +145,9 @@ namespace wdft
          * @param alpha: alpha value to be used for the alpha transform,
          *             use 0 for Backwards Euler, use 1 for Bilinear Transform.
          */
-        explicit CapacitorAlphaT (T value, T fs = (T) 48000.0, T alpha = (T) 1.0) : C_value (value),
-                                                                                    fs (fs),
-                                                                                    alpha (alpha),
+        explicit CapacitorAlphaT (T value, T _fs = (T) 48000.0, T _alpha = (T) 1.0) : C_value (value),
+                                                                                    fs (_fs),
+                                                                                    alpha (_alpha),
                                                                                     b_coef (((T) 1.0 - alpha) / (T) 2.0),
                                                                                     a_coef (((T) 1.0 + alpha) / (T) 2.0)
         {
@@ -232,8 +236,8 @@ namespace wdft
          * @param value: Inductance value in Farads
          * @param fs: WDF sample rate
          */
-        explicit InductorT (T value, T fs = (T) 48000.0) : L_value (value),
-                                                           fs (fs)
+        explicit InductorT (T value, T _fs = (T) 48000.0) : L_value (value),
+                                                           fs (_fs)
         {
             calcImpedance();
         }
@@ -306,9 +310,9 @@ namespace wdft
          * @param alpha: alpha value to be used for the alpha transform,
          *               use 0 for Backwards Euler, use 1 for Bilinear Transform.
          */
-        explicit InductorAlphaT (T value, T fs = (T) 48000.0, T alpha = (T) 1.0) : L_value (value),
-                                                                                   fs (fs),
-                                                                                   alpha (alpha),
+        explicit InductorAlphaT (T value, T _fs = (T) 48000.0, T _alpha = (T) 1.0) : L_value (value),
+                                                                                   fs (_fs),
+                                                                                   alpha (_alpha),
                                                                                    b_coef (((T) 1.0 - alpha) / (T) 2.0),
                                                                                    a_coef (((T) 1.0 + alpha) / (T) 2.0)
         {
@@ -568,5 +572,5 @@ namespace wdft
     };
 } // namespace wdft
 } // namespace chowdsp
-
+#pragma clang diagnostic pop
 #endif //CHOWDSP_WDF_WDFT_ONE_PORTS_H

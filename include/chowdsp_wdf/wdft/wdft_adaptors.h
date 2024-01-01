@@ -162,7 +162,7 @@ namespace wdft
     {
     public:
         /** Creates a new WDF Y-Parameter, with the given coefficients */
-        YParameterT (PortType& port1, T y11, T y12, T y21, T y22) : port1 (port1)
+        YParameterT (PortType& _port1, T y11, T y12, T y21, T y22) : port1 (_port1)
         {
             y[0][0] = y11;
             y[0][1] = y12;

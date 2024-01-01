@@ -105,9 +105,9 @@ namespace wdft
         /** Creates a new resistive voltage source.
          * @param value: initial resistance value, in Ohms
          */
-        explicit CapacitiveVoltageSourceT (T value = NumericType<T> (1.0e-6), T fs = (T) 48000)
+        explicit CapacitiveVoltageSourceT (T value = NumericType<T> (1.0e-6), T _fs = (T) 48000)
             : C_value (value),
-              fs (fs)
+              fs (_fs)
 
         {
             calcImpedance();

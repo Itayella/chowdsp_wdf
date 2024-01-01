@@ -24,7 +24,7 @@ namespace wdft
      * See Werner et al., "An Improved and Generalized Diode Clipper Model for Wave Digital Filters"
      * https://www.researchgate.net/publication/299514713_An_Improved_and_Generalized_Diode_Clipper_Model_for_Wave_Digital_Filters
      */
-    template <typename T, typename Next, DiodeQuality Quality = DiodeQuality::Best, typename OmegaProvider = Omega::Omega>
+    template <typename T, typename Next, DiodeQuality Quality = DiodeQuality::Best>
     class DiodePairT final : public RootWDF
     {
     public:
@@ -35,10 +35,10 @@ namespace wdft
          * @param Vt: thermal voltage
          * @param nDiodes: the number of series diodes
          */
-        DiodePairT (Next& n, T Is, T Vt = NumericType<T> (25.85e-3), T nDiodes = 1) : next (n)
+        DiodePairT (Next& n, T is, T vt = NumericType<T> (25.85e-3), T nDiodes = 1) : next (n)
         {
             n.connectToParent (this);
-            setDiodeParameters (Is, Vt, nDiodes);
+            setDiodeParameters (is, vt, nDiodes);
         }
 
         /** Sets diode specific parameters */
@@ -86,7 +86,7 @@ namespace wdft
         {
             // See eqn (18) from reference paper
             T lambda = (T) signum::signum (wdf.a);
-            wdf.b = wdf.a + (T) 2 * lambda * (R_Is - Vt * OmegaProvider::omega (logR_Is_overVt + lambda * wdf.a * oneOverVt + R_Is_overVt));
+            wdf.b = wdf.a + (T) 2 * lambda * (R_Is - Vt * Omega::omega4 (logR_Is_overVt + lambda * wdf.a * oneOverVt + R_Is_overVt));
         }
 
         /** Implementation for float/double (Best). */
@@ -118,7 +118,7 @@ namespace wdft
      * See Werner et al., "An Improved and Generalized Diode Clipper Model for Wave Digital Filters"
      * https://www.researchgate.net/publication/299514713_An_Improved_and_Generalized_Diode_Clipper_Model_for_Wave_Digital_Filters
      */
-    template <typename T, typename Next, DiodeQuality Quality = DiodeQuality::Best, typename OmegaProvider = Omega::Omega>
+    template <typename T, typename Next, DiodeQuality Quality = DiodeQuality::Best>
     class DiodeT final : public RootWDF
     {
     public:
@@ -129,10 +129,10 @@ namespace wdft
          * @param Vt: thermal voltage
          * @param nDiodes: the number of series diodes
          */
-        DiodeT (Next& n, T Is, T Vt = NumericType<T> (25.85e-3), T nDiodes = 1) : next (n)
+        DiodeT (Next& n, T is, T vt = NumericType<T> (25.85e-3), T nDiodes = 1) : next (n)
         {
             n.connectToParent (this);
-            setDiodeParameters (Is, Vt, nDiodes);
+            setDiodeParameters (is, vt, nDiodes);
         }
 
         /** Sets diode specific parameters */
@@ -167,7 +167,7 @@ namespace wdft
         inline T reflected() noexcept
         {
             // See eqn (10) from reference paper
-            wdf.b = wdf.a + twoR_Is - twoVt * OmegaProvider::omega (logR_Is_overVt + wdf.a * oneOverVt + R_Is_overVt);
+            wdf.b = wdf.a + twoR_Is - twoVt * Omega::omega4 (logR_Is_overVt + wdf.a * oneOverVt + R_Is_overVt);
             return wdf.b;
         }
 
